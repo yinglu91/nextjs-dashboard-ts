@@ -1,12 +1,28 @@
 'use client'
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
+import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
 type Props = { placeholder: string }
 
 export default function Search({ placeholder }: Props) {
+  const searchParams = useSearchParams()
+
   const handleSearch = (term: string) => {
-    console.log(term)
+    const params = new URLSearchParams(searchParams)
+    // URLSearchParams - Web API use to get params string like 'page=1&query=a'
+
+    const pathname = usePathname() // '/dashboard/invoices'
+    const { replace } = useRouter()
+
+    if (term) {
+      params.set('query', term)
+    } else {
+      params.delete('query')
+    }
+
+    replace(`${pathname}?${params.toString()}`)
+    // the URL is updated to /dashboard/invoices?query=lee if input: lee
   }
 
   return (
@@ -22,6 +38,7 @@ export default function Search({ placeholder }: Props) {
         className='peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500'
         placeholder={placeholder}
         onChange={(event) => handleSearch(event.target.value)}
+        defaultValue={searchParams.get('query')?.toString()}
       />
 
       <MagnifyingGlassIcon className='absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
