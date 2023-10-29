@@ -3,15 +3,15 @@ import {
   ClockIcon,
   UserGroupIcon,
   InboxIcon,
-} from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
+} from '@heroicons/react/24/outline'
+import { lusitana } from '@/app/ui/fonts'
 
 const iconMap = {
   collected: BanknotesIcon,
   customers: UserGroupIcon,
   pending: ClockIcon,
   invoices: InboxIcon,
-};
+}
 
 export default async function Cards() {
   return (
@@ -27,25 +27,24 @@ export default async function Cards() {
         type="customers"
       /> */}
     </>
-  );
+  )
 }
 
-export function Card({
-  title,
-  value,
-  type,
-}: {
-  title: string;
-  value: number | string;
-  type: 'invoices' | 'customers' | 'pending' | 'collected';
-}) {
-  const Icon = iconMap[type];
+type Props = {
+  title: string
+  value: number | string
+  type: 'invoices' | 'customers' | 'pending' | 'collected'
+}
+
+export function Card({ title, value, type }: Props) {
+  const Icon = iconMap[type]
 
   return (
-    <div className="rounded-xl bg-gray-50 p-2 shadow-sm">
-      <div className="flex p-4">
-        {Icon ? <Icon className="h-5 w-5 text-gray-700" /> : null}
-        <h3 className="ml-2 text-sm font-medium">{title}</h3>
+    <div className='rounded-xl bg-gray-50 p-2 shadow-sm'>
+      <div className='flex p-4'>
+        {Icon && <Icon className='h-5 w-5 text-gray-700' />}
+
+        <h3 className='ml-2 text-sm font-medium'>{title}</h3>
       </div>
       <p
         className={`${lusitana.className}
@@ -54,5 +53,5 @@ export function Card({
         {value}
       </p>
     </div>
-  );
+  )
 }
