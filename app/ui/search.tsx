@@ -27,7 +27,7 @@ export default function Search({ placeholder }: Props) {
     // the URL is updated to /dashboard/invoices?query=lee if input: lee
   }
 
-  const handleSearch = useDebouncedCallback(handleSearch2, 300)
+  const handleSearch = useDebouncedCallback(handleSearch2, 600)
   // only run the code after a specific time once the user has stopped typing (300ms).
   // By debouncing, you can reduce the number of requests sent to your database, thus saving resources.
 
