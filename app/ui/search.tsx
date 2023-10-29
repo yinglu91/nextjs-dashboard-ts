@@ -7,13 +7,12 @@ type Props = { placeholder: string }
 
 export default function Search({ placeholder }: Props) {
   const searchParams = useSearchParams()
+  const pathname = usePathname() // '/dashboard/invoices'
+  const { replace } = useRouter()
 
   const handleSearch = (term: string) => {
     const params = new URLSearchParams(searchParams)
     // URLSearchParams - Web API use to get params string like 'page=1&query=a'
-
-    const pathname = usePathname() // '/dashboard/invoices'
-    const { replace } = useRouter()
 
     if (term) {
       params.set('query', term)

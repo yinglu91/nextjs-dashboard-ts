@@ -1,9 +1,21 @@
 import { lusitana } from '@/app/ui/fonts'
 import { CreateInvoice } from '@/app/ui/invoices/buttons'
+import Table from '@/app/ui/invoices/table'
 import Search from '@/app/ui/search'
-import React from 'react'
+import { InvoicesTableSkeleton } from '@/app/ui/skeletons'
+import React, { Suspense } from 'react'
 
-const InvoicesPage = () => {
+type Props = {
+  searchParams?: {
+    query?: string
+    page?: string
+  }
+}
+
+const InvoicesPage = ({ searchParams }: Props) => {
+  const query = searchParams?.query || ''
+  const currentPage = Number(searchParams?.page || '1')
+
   return (
     <div className='w-full'>
       <div className='flex w-full items-center justify-between'>
@@ -15,9 +27,15 @@ const InvoicesPage = () => {
         <CreateInvoice />
       </div>
 
-      {/*  <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
-        <Table query={query} currentPage={currentPage} />
-      </Suspense> */}
+      <Suspense
+        key={query + currentPage}
+        fallback={<InvoicesTableSkeleton />}
+      >
+        <Table
+          query={query}
+          currentPage={currentPage}
+        />
+      </Suspense>
 
       <div className='mt-5 flex w-full justify-center'>
         {/* <Pagination totalPages={totalPages} /> */}
