@@ -4,6 +4,8 @@ import LatestInvoices from '../ui/dashboard/latest-invoices'
 import RevenueChart from '../ui/dashboard/revenue-chart'
 import { lusitana } from '../ui/fonts'
 
+// export const dynamic = 'force-dynamic'
+
 const DashboardPage = async () => {
   const revenue = await fetchRevenue()
   const latestInvoices = await fetchLatestInvoices()
