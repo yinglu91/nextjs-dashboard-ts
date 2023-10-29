@@ -2,6 +2,7 @@
 
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { useSearchParams, usePathname, useRouter } from 'next/navigation'
+import { useDebouncedCallback } from 'use-debounce'
 
 type Props = { placeholder: string }
 
@@ -10,7 +11,9 @@ export default function Search({ placeholder }: Props) {
   const pathname = usePathname() // '/dashboard/invoices'
   const { replace } = useRouter()
 
-  const handleSearch = (term: string) => {
+  const handleSearch2 = (term: string) => {
+    console.log(`Searching... ${term}`)
+
     const params = new URLSearchParams(searchParams)
     // URLSearchParams - Web API use to get params string like 'page=1&query=a'
 
@@ -23,6 +26,10 @@ export default function Search({ placeholder }: Props) {
     replace(`${pathname}?${params.toString()}`)
     // the URL is updated to /dashboard/invoices?query=lee if input: lee
   }
+
+  const handleSearch = useDebouncedCallback(handleSearch2, 300)
+  // only run the code after a specific time once the user has stopped typing (300ms).
+  // By debouncing, you can reduce the number of requests sent to your database, thus saving resources.
 
   return (
     <div className='relative flex flex-1 flex-shrink-0'>
