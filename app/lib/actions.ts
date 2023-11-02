@@ -37,6 +37,38 @@ export const createInvoice = async (formData: FormData) => {
   redirect('/dashboard/invoices')
 }
 
+// Use Zod to update the expected types
+const UpdateInvoice = InvoiceSchema.omit({ date: true })
+
+export const updateInvoice = async (id: string, formData: FormData) => {
+  const { customerId, amount, status } = UpdateInvoice.parse({
+    id,
+    customerId: formData.get('customerId'),
+    amount: formData.get('amount'),
+    status: formData.get('status'),
+  })
+
+  const amountInCents = amount * 100
+
+  await sql`
+    UPDATE invoices
+    SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+    WHERE id = ${id}
+  `
+
+  revalidatePath('/dashboard/invoices')
+  redirect('/dashboard/invoices')
+}
+
+export const deleteInvoice = async (id: string) => {
+  await sql`
+    DELETE FROM invoices
+    WHERE id = ${id}
+  `
+
+  revalidatePath('/dashboard/invoices')
+}
+
 /*
 formData= FormData {
   [Symbol(state)]: [
