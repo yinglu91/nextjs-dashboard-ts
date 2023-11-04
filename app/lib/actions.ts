@@ -79,14 +79,22 @@ export const createInvoice = async (prevState: State, formData: FormData) => {
 // Use Zod to update the expected types
 const UpdateInvoice = InvoiceSchema.omit({ date: true })
 
-export const updateInvoice = async (id: string, formData: FormData) => {
-  const { customerId, amount, status } = UpdateInvoice.parse({
+export const updateInvoice = async (id: string, prevState: State, formData: FormData) => {
+  const result = UpdateInvoice.safeParse({
     id,
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
   })
 
+  if (!result.success) {
+    return {
+      errors: result.error.flatten().fieldErrors,
+      message: 'Missing Fields. Failed to Update Invoice.'
+    }
+  }
+
+  const { customerId, amount, status } = result.data
   const amountInCents = amount * 100
 
   try {
@@ -160,4 +168,32 @@ formData= FormData {
     { name: 'status', value: 'pending' }
   ]
 }
+
+
+error if missing amount:
+
+{errors: {…}, message: 'Missing Fields. Failed to Update Invoice.'}
+errors
+: 
+amount
+: 
+Array(1)
+0
+: 
+"Please enter an amount greater than $0."
+length
+: 
+1
+[[Prototype]]
+: 
+Array(0)
+[[Prototype]]
+: 
+Object
+message
+: 
+"Missing Fields. Failed to Update Invoice."
+[[Prototype]]
+: 
+Object
 */
