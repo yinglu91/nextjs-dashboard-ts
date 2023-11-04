@@ -18,7 +18,7 @@ export default function Form({ customers }: Props) {
   const initialState: State = { message: null, errors: {} }
   const [state, dispatch] = useFormState(createInvoice, initialState)
 
-  console.log('YYYYLLLL state=', state)
+  console.log('state=', state)
 
   return (
     <form action={dispatch}>
@@ -99,7 +99,7 @@ export default function Form({ customers }: Props) {
 
           {state.errors?.amount && (
             <div
-              id='customer-error'
+              id='amount-error'
               aria-live='polite'
               className='mt-2 text-sm text-red-500'
             >
@@ -160,7 +160,7 @@ export default function Form({ customers }: Props) {
 
           {state.errors?.status && (
             <div
-              id='customer-error'
+              id='status-error'
               aria-live='polite'
               className='mt-2 text-sm text-red-500'
             >
@@ -182,6 +182,7 @@ export default function Form({ customers }: Props) {
         )}
       </div>
 
+      {/* Action Buttons */}
       <div className='mt-6 flex justify-end gap-4'>
         <Link
           href='/dashboard/invoices'
