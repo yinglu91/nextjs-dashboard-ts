@@ -18,7 +18,7 @@ export default function Form({ customers }: Props) {
   const initialState: State = { message: null, errors: {} }
   const [state, dispatch] = useFormState(createInvoice, initialState)
 
-  console.log('YYYYLLLL state=', state)
+  console.log('state=', state)
 
   return (
     <form action={dispatch}>
@@ -182,6 +182,7 @@ export default function Form({ customers }: Props) {
         )}
       </div>
 
+      {/* Action Buttons */}
       <div className='mt-6 flex justify-end gap-4'>
         <Link
           href='/dashboard/invoices'
